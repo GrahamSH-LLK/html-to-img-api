@@ -1,5 +1,6 @@
 import { Elysia, t } from "elysia";
 import { swagger } from "@elysiajs/swagger";
+import { rateLimit } from "elysia-rate-limit";
 
 import puppeteer from "puppeteer";
 const browser = await puppeteer.launch();
@@ -14,9 +15,18 @@ const takeScreenshot = async (html: string, selector: string) => {
 
   return buffer;
 };
+const cloudflareGenerator = (req: Request, server: any) =>
+  // get client ip via cloudflare header first
+  req.headers.get("CF-Connecting-IP") ??
+  // if not found, fallback to default generator
+  server?.requestIP(req)?.address ??
+  "";
 
 const app = new Elysia()
-  .use(swagger({excludeStaticFile:false}))
+  .use(
+    rateLimit({ max: 10, duration: 60 * 1000, generator: cloudflareGenerator })
+  ) // 10 requests per minute
+  .use(swagger({ excludeStaticFile: false }))
   .get("/", () => "Hello Elysia")
   .post(
     "/img.png",

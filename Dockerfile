@@ -14,5 +14,7 @@ COPY tsconfig.json .
 # COPY public public
 
 ENV NODE_ENV production
+USER pptruser
+
 CMD ["bun", "src/index.ts"]
 

@@ -6,8 +6,12 @@
     "dev": "bun run --watch src/index.ts"
   },
   "dependencies": {
-    "elysia": "latest"
+    "elysia": "latest",
+    "puppeteer": "^23.0.2"
   },
+  "trustedDependencies": [
+    "puppeteer"
+  ],
   "devDependencies": {
     "bun-types": "latest"
   },

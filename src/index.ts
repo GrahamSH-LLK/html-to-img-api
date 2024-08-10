@@ -8,7 +8,7 @@ const takeScreenshot = async (html: string, selector: string) => {
 
   await page.setContent(html, { waitUntil: "domcontentloaded" });
   const element = await page.$(selector);
-  const buffer = await element?.scrqeenshot({
+  const buffer = await element?.screenshot({
     optimizeForSpeed: true,
   });
 

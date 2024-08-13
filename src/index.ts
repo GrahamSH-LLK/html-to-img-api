@@ -71,7 +71,7 @@ const app = new Elysia()
     )}`;
     url = `https://lunch.grahamsh.com/dates/special/08%2F27%2F2024`;
 
-    const buffer = await takeScreenshotUrl(url, "#day-container > flex");
+    const buffer = await takeScreenshotUrl(url, "#day-container > .flex");
     return new Response(buffer, {
       headers: {
         "Content-Type": "image/png",

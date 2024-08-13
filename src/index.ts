@@ -37,7 +37,7 @@ const cloudflareGenerator = (req: Request, server: any) =>
 
 const app = new Elysia()
   //.use(
-    //rateLimit({ max: 10, duration: 60 * 1000, generator: cloudflareGenerator })
+  //rateLimit({ max: 10, duration: 60 * 1000, generator: cloudflareGenerator })
   //) // 10 requests per minute
   .use(swagger({ excludeStaticFile: false }))
   .get("/", () => "Hello Elysia")
@@ -71,7 +71,24 @@ const app = new Elysia()
     )}`;
     url = `https://lunch.grahamsh.com/dates/special/08%2F27%2F2024`;
 
-    const buffer = await takeScreenshotUrl(url, "#day-container");
+    const buffer = await takeScreenshotUrl(url, "#day-container > flex");
+    return new Response(buffer, {
+      headers: {
+        "Content-Type": "image/png",
+      },
+    });
+  })
+  .get("/notes.png", async () => {
+    let url = `https://lunch.grahamsh.com/dates/special/${encodeURIComponent(
+      new Date().toLocaleString(undefined, {
+        day: "2-digit",
+        year: "numeric",
+        month: "2-digit",
+      })
+    )}`;
+    url = `https://lunch.grahamsh.com/dates/special/08%2F27%2F2024`;
+
+    const buffer = await takeScreenshotUrl(url, "#day-container > .prose");
     return new Response(buffer, {
       headers: {
         "Content-Type": "image/png",

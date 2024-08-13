@@ -19,7 +19,10 @@ const takeScreenshotUrl = async (url: string, selector: string) => {
   const page = await browser.newPage();
   await page.setViewport({ width: 1280, height: 1280 });
 
-  await page.goto(url, { waitUntil: "networkidle0" });
+  const res = await page.goto(url, { waitUntil: "networkidle0" });
+  if (!res?.ok()) {
+    throw new Error(`Failed to load page: ${res?.status()} ${res?.statusText()}`);
+  }
   const element = await page.$(selector);
   const buffer = await element?.screenshot({
     optimizeForSpeed: true,
@@ -69,7 +72,7 @@ const app = new Elysia()
         month: "2-digit",
       })
     )}/puppeteer`;
-    url = `https://lunch.grahamsh.com/dates/special/08%2F27%2F2024/puppeteer`;
+    //url = `https://lunch.grahamsh.com/dates/special/08%2F27%2F2024/puppeteer`;
 
     const buffer = await takeScreenshotUrl(url, "#day-container");
     return new Response(buffer, {

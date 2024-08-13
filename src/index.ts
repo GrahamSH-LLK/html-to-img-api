@@ -17,6 +17,8 @@ const takeScreenshotHtml = async (html: string, selector: string) => {
 };
 const takeScreenshotUrl = async (url: string, selector: string) => {
   const page = await browser.newPage();
+  await page.setViewport({ width: 1280, height: 720 });
+
   await page.goto(url, { waitUntil: "load" });
   const element = await page.$(selector);
   const buffer = await element?.screenshot({

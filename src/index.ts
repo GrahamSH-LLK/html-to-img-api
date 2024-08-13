@@ -19,7 +19,7 @@ const takeScreenshotUrl = async (url: string, selector: string) => {
   const page = await browser.newPage();
   await page.setViewport({ width: 1280, height: 1280 });
 
-  await page.goto(url, { waitUntil: "load" });
+  await page.goto(url, { waitUntil: "networkidle0" });
   const element = await page.$(selector);
   const buffer = await element?.screenshot({
     optimizeForSpeed: true,

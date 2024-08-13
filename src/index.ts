@@ -68,10 +68,10 @@ const app = new Elysia()
         year: "numeric",
         month: "2-digit",
       })
-    )}`;
-    url = `https://lunch.grahamsh.com/dates/special/08%2F27%2F2024`;
+    )}/puppeteer`;
+    url = `https://lunch.grahamsh.com/dates/special/08%2F27%2F2024/puppeteer`;
 
-    const buffer = await takeScreenshotUrl(url, "#day-container > .flex");
+    const buffer = await takeScreenshotUrl(url, "#day-container");
     return new Response(buffer, {
       headers: {
         "Content-Type": "image/png",

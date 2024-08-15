@@ -12,6 +12,7 @@ const takeScreenshotHtml = async (html: string, selector: string) => {
   const buffer = await element?.screenshot({
     optimizeForSpeed: true,
   });
+  await page.close();
 
   return buffer;
 };
@@ -27,7 +28,7 @@ const takeScreenshotUrl = async (url: string, selector: string) => {
   const buffer = await element?.screenshot({
     optimizeForSpeed: true,
   });
-
+  await page.close()
   return buffer;
 };
 
@@ -81,24 +82,7 @@ const app = new Elysia()
       },
     });
   })
-  .get("/notes.png", async () => {
-    let url = `https://lunch.grahamsh.com/dates/special/${encodeURIComponent(
-      new Date().toLocaleString(undefined, {
-        day: "2-digit",
-        year: "numeric",
-        month: "2-digit",
-      })
-    )}`;
-    url = `https://lunch.grahamsh.com/dates/special/08%2F27%2F2024`;
-
-    const buffer = await takeScreenshotUrl(url, "#day-container > .prose");
-    return new Response(buffer, {
-      headers: {
-        "Content-Type": "image/png",
-      },
-    });
-  });
-app.listen(3000);
+app.listen(3090);
 
 console.log(
   `🦊 Elysia is running at http://${app.server?.hostname}:${app.server?.port}`

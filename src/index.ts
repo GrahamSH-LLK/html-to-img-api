@@ -1,6 +1,5 @@
 import { Elysia, t } from "elysia";
 import { swagger } from "@elysiajs/swagger";
-import { rateLimit } from "elysia-rate-limit";
 
 import puppeteer from "puppeteer";
 const browser = await puppeteer.launch();
@@ -86,7 +85,7 @@ const app = new Elysia()
       },
     });
   });
-app.listen(3090);
+app.listen(3000);
 
 console.log(
   `🦊 Elysia is running at http://${app.server?.hostname}:${app.server?.port}`

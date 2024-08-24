@@ -67,7 +67,7 @@ const app = new Elysia()
     }
   )
   .get("/today.png", async () => {
-    const date = new Date("2024-08-27T09:07:08.434Z");
+    const date = new Date();
     const dateStr = encodeURIComponent(
       date.toLocaleString(undefined, {
         day: "2-digit",

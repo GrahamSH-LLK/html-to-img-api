@@ -22,13 +22,15 @@ const takeScreenshotUrl = async (url: string, selector: string) => {
 
   const res = await page.goto(url, { waitUntil: "networkidle0" });
   if (!res?.ok()) {
-    throw new Error(`Failed to load page: ${res?.status()} ${res?.statusText()}`);
+    throw new Error(
+      `Failed to load page: ${res?.status()} ${res?.statusText()}`
+    );
   }
   const element = await page.$(selector);
   const buffer = await element?.screenshot({
     optimizeForSpeed: true,
   });
-  await page.close()
+  await page.close();
   return buffer;
 };
 
@@ -66,14 +68,16 @@ const app = new Elysia()
     }
   )
   .get("/today.png", async () => {
-    let url = `https://lunch.grahamsh.com/dates/special/${encodeURIComponent(
-      new Date().toLocaleString(undefined, {
+    const date = new Date();
+    const dateStr = encodeURIComponent(
+      date.toLocaleString(undefined, {
         day: "2-digit",
         year: "numeric",
         month: "2-digit",
+        timeZone: "America/New_York",
       })
-    )}/puppeteer`;
-    //url = `https://lunch.grahamsh.com/dates/special/08%2F27%2F2024/puppeteer`;
+    );
+    let url = `https://lunch.grahamsh.com/dates/special/${dateStr}/puppeteer`;
 
     const buffer = await takeScreenshotUrl(url, "#day-container");
     return new Response(buffer, {
@@ -81,7 +85,7 @@ const app = new Elysia()
         "Content-Type": "image/png",
       },
     });
-  })
+  });
 app.listen(3090);
 
 console.log(
